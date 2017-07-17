@@ -1,77 +1,86 @@
 var express = require('express');
-var mongoose  = require('mongoose')
+var mongoose = require('mongoose')
 
-mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', {useMongoClient : true})
+mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', { useMongoClient: true })
 
 let postSchema = new mongoose.Schema({
-    _id         :   String,
-    title       :   String,
-    description :   String,
-    category    :   String,
-    location    :   [String, String],
-    duration    :   {value:   Number, unit: String},
-    hourlyFee   :   Number,
-    preferredDate:  Date,
-    preferredTime:  Date,
-    status      :   String,
-    waitingList :   [
+    title: String,
+    description: String,
+    category: String,
+    location: [String, String],
+    duration: { value: Number, unit: String },
+    hourlyFee: Number,
+    preferredDate: Date,
+    preferredTime: Date,
+    status: String,
+    waitingList: [
         {
-            userName:  String,
-            applicationDetails:     {
-                summary     :   String,
-                createdOn   :   Date
+            userName: String,
+            applicationDetails: {
+                summary: String,
+                createdOn: Date
             },
-            notification:   String
+            notification: String
         }
     ],
-    grantedTo   :   [
+    grantedTo: [
         {
-            userName    :   String,
-            deadline    :   Date,
-            notification:   String
+            userName: String,
+            deadline: Date,
+            notification: String
         }
     ],
-    createdOn   :   Date,
-    comments    :   [
+    createdOn: Date,
+    comments: [
         {
-            commentBy   :   String,
-            text        :   String,
-            timeStamp   :   Date
+            commentBy: String,
+            text: String,
+            timeStamp: Date
         }
     ]
 })
 
-postSchema.statics.getSome = function(post){
-    return new Promise((res, rej)=>{    
-        if (post === null){ 
-            rej({'status':false})
+postSchema.statics.get = function (post) {
+    return new Promise((res, rej) => {
+        if (post === null) {
+            rej({ 'message': 'post is null', 'status': false })
         } else {
-            Post.find(post, function(err, data){
-                if (err) rej(err)
+            Post.find(post, function (err, data) {
+                if (err) rej({ 'message': err, 'status': false })
                 res(JSON.stringify(data))
             })
         }
     })
 }
 
-postSchema.methods.add = function() {
-    this.save(function(err){
-        if (err) throw err
-        console.log("Successfully Added!")
+postSchema.methods.add = function () {
+    return new Promise((res, rej) => {
+        this.save(function (err) {
+            if (err) {
+            
+                rej({ 'message': err, 'status': false })
+                
+            }
+            else {
+                res("Successfully Added!");
+                console.log("Successfully Added!")
+            }
+
+        })
     })
 }
-postSchema.methods.update = function() {
-    Post.find({_id : this._id}, function(err, post){
-        if(err) throw err
-        console.log(post)
-        post = this
-        post.add()
+postSchema.methods.update = function () {
+    return new Promise((res, rej) => {
+        Post.get({ _id: this._id })
+            .then(post => { post = this; post.add() })
+            .catch((err) => rej({ 'message': err, 'status': false }));
     })
 }
-postSchema.methods.remove = function(id) {
-    let p = Post.get(id)
-    p.remove(function(err){
-        if (err) throw err
+postSchema.methods.remove = function (id) {
+    return new Promise((res, rej) => {
+        Post.get({ _id: id })
+            .then(post => post.remove())
+            .catch(err => rej({ 'message': err, 'status': false }))
     })
 }
 
