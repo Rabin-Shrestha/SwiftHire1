@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+//var root = require('app-root-path')
 
 var app = express();
 
@@ -31,7 +32,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

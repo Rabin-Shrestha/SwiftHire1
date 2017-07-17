@@ -41,16 +41,12 @@ let postSchema = new mongoose.Schema({
     ]
 })
 
-postSchema.statics.get = function(id=null){
-    return new Promise((res, rej)=>{
-    
-        if (id === null){ 
-            Post.find({}, function(err, data){
-                if (err) rej(err)
-                res(JSON.stringify(data))
-            })
+postSchema.statics.getSome = function(post){
+    return new Promise((res, rej)=>{    
+        if (post === null){ 
+            rej({'status':false})
         } else {
-            Post.find({_id : id}, function(err, data){
+            Post.find(post, function(err, data){
                 if (err) rej(err)
                 res(JSON.stringify(data))
             })
