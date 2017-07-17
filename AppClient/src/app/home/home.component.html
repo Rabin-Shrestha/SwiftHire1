@@ -1,0 +1,13 @@
+<div>
+  <ul>
+    <li><a [routerLink]="['main']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
+    <li><a [routerLink]="['activities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Activities</a></li>
+    <li><a [routerLink]="['myJob']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">My Job</a></li>
+    <li><a [routerLink]="['myPost']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">My Post</a></li>
+    <li><a [routerLink]="['notification']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Notification</a></li>
+    <li><a [routerLink]="['newPost']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Add New Post</a></li>
+  </ul>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>

@@ -4,16 +4,16 @@ var mongoose = require('mongoose')
 mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', { useMongoClient: true })
 
 let postSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    category: String,
-    location: [String, String],
-    duration: { value: Number, unit: String },
-    hourlyFee: Number,
-    preferredDate: Date,
-    preferredTime: Date,
-    status: String,
-    waitingList: [
+    title       :   String,
+    description :   String,
+    category    :   String,
+    location    :   [String, String],
+    duration    :   {value:   Number, unit: String},
+    hourlyFee   :   Number,
+    preferredDate:  Date,
+    preferredTime:  Date,
+    status      :   String,
+    waitingList :   [
         {
             userName: String,
             applicationDetails: {
@@ -40,47 +40,40 @@ let postSchema = new mongoose.Schema({
     ]
 })
 
-postSchema.statics.get = function (post) {
-    return new Promise((res, rej) => {
-        if (post === null) {
-            rej({ 'message': 'post is null', 'status': false })
+
+postSchema.statics.get = function(post){
+    return new Promise((res, rej)=>{    
+        if (post === null){ 
+            rej({'message': 'post is null','status':false})
         } else {
-            Post.find(post, function (err, data) {
-                if (err) rej({ 'message': err, 'status': false })
+            Post.find(post, function(err, data){
+                if (err) rej({'message': err,'status':false})
                 res(JSON.stringify(data))
             })
         }
     })
 }
 
-postSchema.methods.add = function () {
-    return new Promise((res, rej) => {
-        this.save(function (err) {
-            if (err) {
-            
-                rej({ 'message': err, 'status': false })
-                
-            }
-            else {
-                res("Successfully Added!");
-                console.log("Successfully Added!")
-            }
-
+postSchema.methods.add = function() {
+    return new Promise((res, rej)=>{    
+        this.save(function(err){
+            if (err) rej({'message': err,'status':false})
+            console.log("Successfully Added!")
         })
     })
 }
-postSchema.methods.update = function () {
-    return new Promise((res, rej) => {
-        Post.get({ _id: this._id })
-            .then(post => { post = this; post.add() })
-            .catch((err) => rej({ 'message': err, 'status': false }));
+postSchema.methods.update = function() {
+    return new Promise((res, rej)=>{  
+        Post.get({_id : this._id})
+            .then(post => {post = this; post.add()})
+            .catch((err) => rej({'message': err,'status':false}));           
     })
 }
-postSchema.methods.remove = function (id) {
-    return new Promise((res, rej) => {
-        Post.get({ _id: id })
+postSchema.methods.remove = function(id) {
+    return new Promise((res, rej)=>{  
+        Post.get({_id : id})
             .then(post => post.remove())
-            .catch(err => rej({ 'message': err, 'status': false }))
+            .catch(err =>  rej({'message': err,'status':false}))       
     })
 }
 
