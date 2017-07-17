@@ -4,7 +4,6 @@ var mongoose  = require('mongoose')
 mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', {useMongoClient : true})
 
 let postSchema = new mongoose.Schema({
-    _id         :   String,
     title       :   String,
     description :   String,
     category    :   String,
@@ -41,13 +40,13 @@ let postSchema = new mongoose.Schema({
     ]
 })
 
-postSchema.statics.getSome = function(post){
+postSchema.statics.get = function(post){
     return new Promise((res, rej)=>{    
         if (post === null){ 
-            rej({'status':false})
+            rej({'message': 'post is null','status':false})
         } else {
             Post.find(post, function(err, data){
-                if (err) rej(err)
+                if (err) rej({'message': err,'status':false})
                 res(JSON.stringify(data))
             })
         }
@@ -55,23 +54,25 @@ postSchema.statics.getSome = function(post){
 }
 
 postSchema.methods.add = function() {
-    this.save(function(err){
-        if (err) throw err
-        console.log("Successfully Added!")
+    return new Promise((res, rej)=>{    
+        this.save(function(err){
+            if (err) rej({'message': err,'status':false})
+            console.log("Successfully Added!")
+        })
     })
 }
 postSchema.methods.update = function() {
-    Post.find({_id : this._id}, function(err, post){
-        if(err) throw err
-        console.log(post)
-        post = this
-        post.add()
+    return new Promise((res, rej)=>{  
+        Post.get({_id : this._id})
+            .then(post => {post = this; post.add()})
+            .catch((err) => rej({'message': err,'status':false}));           
     })
 }
 postSchema.methods.remove = function(id) {
-    let p = Post.get(id)
-    p.remove(function(err){
-        if (err) throw err
+    return new Promise((res, rej)=>{  
+        Post.get({_id : id})
+            .then(post => post.remove())
+            .catch(err =>  rej({'message': err,'status':false}))       
     })
 }
 
