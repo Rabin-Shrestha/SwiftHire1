@@ -4,6 +4,7 @@ var mongoose  = require('mongoose')
 mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', {useMongoClient : true})
 
 let postSchema = new mongoose.Schema({
+    _id         :   String,
     title       :   String,
     description :   String,
     category    :   String,
@@ -30,7 +31,14 @@ let postSchema = new mongoose.Schema({
             notification:   String
         }
     ],
-    createdOn   :   Date
+    createdOn   :   Date,
+    comments    :   [
+        {
+            commentBy   :   String,
+            text        :   String,
+            timeStamp   :   Date
+        }
+    ]
 })
 
 postSchema.statics.get = function(id=null){
