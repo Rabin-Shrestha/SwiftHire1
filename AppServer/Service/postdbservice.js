@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose')
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://admin1:admin1@ds161262.mlab.com:61262/swifthire', { useMongoClient: true })
 
 let postSchema = new mongoose.Schema({
@@ -30,7 +31,8 @@ let postSchema = new mongoose.Schema({
             notification: String
         }
     ],
-    createdOn: Date,
+    createdOn   :   Date,
+    createdBy   :   String,
     comments: [
         {
             commentBy: String,
