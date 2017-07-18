@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs'
+
+import { PostServiceService } from 'C:/Users/Brhane/Desktop/SwiftProject/SwiftHire1/AppClient/src/app/services/post-service.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +11,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  private postData;
+  private data;
+  constructor(private service: PostServiceService) { }
 
   ngOnInit() {
+    this.getAllPosts();
   }
 
+  getAllPosts() {
+    this.service.getAllPosts().subscribe(data => {
+      this.postData = data;
+      console.log(this.postData)
+    }, err => {
+      throw err;
+    });
+  }
+
+  generateArray(obj){
+   return Object.keys(obj).map((key)=>{ return obj[key]});
 }
+}
+

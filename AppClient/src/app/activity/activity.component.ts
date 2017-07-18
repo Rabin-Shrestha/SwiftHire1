@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { PostServiceService } from 'C:/Users/Brhane/Desktop/SwiftProject/SwiftHire1/AppClient/src/app/services/post-service.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActivityComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:PostServiceService) { 
+    
+  }
 
   ngOnInit() {
   }
 
+  getAllActivities(){
+    
+  }
+
+  
 }

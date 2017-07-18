@@ -1,4 +1,4 @@
-<div class="container">
+ <div class="container">
   <div>
     <ul class="breadcrumb">
       <li><a [routerLink]="['main']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
@@ -12,13 +12,20 @@
   <div class="row">
     <div class="panel panel-default col-sm-2">
       <div class="panel-body">
-        <!-- <img src='./src/app/images/user.png'/> -->
+        <img src='./src/app/images/user.png'/>
         <p>User Name</p>
         <p>useremail@email.com
       </div>
     </div>
     <div class="col-sm-10">
       <router-outlet></router-outlet>
+
     </div>
   </div>
-</div>
+</div> 
+
+<!-- <div>
+  <ul>
+    <li *ngFor="let post of postData ?.actionList?.list">{{post.status}} </li>
+  </ul>
+</div> -->
