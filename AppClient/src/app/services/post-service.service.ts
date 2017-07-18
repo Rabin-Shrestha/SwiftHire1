@@ -4,11 +4,12 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class PostServiceService {
+  private postUrl = 'http://localhost:4000/api/posts/'
+  
   constructor(private http: Http) { }
-
-  //get All posts service
-  getAllPosts() {
-    return this.http.get('http://localhost:4000/api/posts').map((data: Response) => data.json());
+  
+  retrieveAllPosts(){
+    return this.http.get(this.postUrl)//.map((res:Response) => res.json())
   }
 
   //My own job post
@@ -19,5 +20,4 @@ export class PostServiceService {
   //My own activities
   getUserActivities(username) {
     return this.http.get('http://localhost:4000/api/posts/activities/' + username);
-  }
 }

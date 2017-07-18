@@ -10,26 +10,25 @@ import { PostServiceService } from 'C:/Users/Brhane/Desktop/SwiftProject/SwiftHi
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private posts;
 
   private postData;
   private data;
   constructor(private service: PostServiceService) { }
 
   ngOnInit() {
+
     this.getAllPosts();
   }
 
   getAllPosts() {
-    this.service.getAllPosts().subscribe(data => {
+    this.service.retrieveAllPosts().subscribe(data => {
       this.postData = data;
       console.log(this.postData)
     }, err => {
       throw err;
     });
-  }
 
-  generateArray(obj){
-   return Object.keys(obj).map((key)=>{ return obj[key]});
-}
+  }
 }
 
